@@ -20,8 +20,25 @@
 <meta name="twitter:title" content="Gewoon lekker vegan | Het kookboek van Joris de Kock">
 <meta name="twitter:description" content="Meer dan 80 vegan recepten waar je écht zin in hebt. Verschijnt 11 september 2026.">
 <meta name="twitter:image" content="https://kookboek.lecocque.com/assets/og-image.jpg">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1650768532692974');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1650768532692974&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 <!--
-  Le Cocque - boek-landingspagina v14 (NL). Doorverwijspagina naar bol.com (affiliate).
+  Le Cocque - boek-landingspagina v15 (NL). Doorverwijspagina naar bol.com (affiliate).
   v11: IG-stijl receptkaarten met likes/views (van Instagram) + "Nieuw in het boek"-kaarten.
   LET OP: de likes/views hieronder zijn PLACEHOLDER-cijfers; Dimitri levert exacte recepten + getallen.
   Huisstijl: geen em dashes, geen "-" als scheider, geen middots, geen punt in koppen.
@@ -287,8 +304,14 @@ footer small{color:var(--muted);font-size:12.5px;width:100%}
 <script>
 (function(){
   var hero=document.getElementById('top'),bar=document.getElementById('stickyCta');
-  if(!hero||!bar||!('IntersectionObserver' in window))return;
-  new IntersectionObserver(function(e){bar.classList.toggle('show',!e[0].isIntersecting);},{threshold:0}).observe(hero);
+  if(hero&&bar&&('IntersectionObserver' in window)){
+    new IntersectionObserver(function(e){bar.classList.toggle('show',!e[0].isIntersecting);},{threshold:0}).observe(hero);
+  }
+  // Meta: vuur InitiateCheckout af zodra iemand op een bol.com-knop klikt (de echte intentie),
+  // zodat Meta kan optimaliseren op klikkers i.p.v. alleen pagina-bezoekers/bots.
+  document.querySelectorAll('a[href*="bol.com"]').forEach(function(a){
+    a.addEventListener('click',function(){ if(window.fbq){ fbq('track','InitiateCheckout',{content_name:'Gewoon lekker vegan',content_type:'product'}); } });
+  });
 })();
 </script>
 

@@ -307,10 +307,13 @@ footer small{color:var(--muted);font-size:12.5px;width:100%}
   if(hero&&bar&&('IntersectionObserver' in window)){
     new IntersectionObserver(function(e){bar.classList.toggle('show',!e[0].isIntersecting);},{threshold:0}).observe(hero);
   }
-  // Meta: vuur InitiateCheckout af zodra iemand op een bol.com-knop klikt (de echte intentie),
-  // zodat Meta kan optimaliseren op klikkers i.p.v. alleen pagina-bezoekers/bots.
+  // Bij elke klik op een bol.com-knop: (1) Meta InitiateCheckout (optimalisatie op klikkers),
+  // (2) eigen teller op het dashboard via sendBeacon (niet-blokkerend, telt LP-doorkliks).
   document.querySelectorAll('a[href*="bol.com"]').forEach(function(a){
-    a.addEventListener('click',function(){ if(window.fbq){ fbq('track','InitiateCheckout',{content_name:'Gewoon lekker vegan',content_type:'product'}); } });
+    a.addEventListener('click',function(){
+      if(window.fbq){ fbq('track','InitiateCheckout',{content_name:'Gewoon lekker vegan',content_type:'product'}); }
+      if(navigator.sendBeacon){ navigator.sendBeacon('https://le-cocque-bol.vercel.app/api/lp-click?k=lecocque'); }
+    });
   });
 })();
 </script>
